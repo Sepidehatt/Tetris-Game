@@ -45,11 +45,19 @@ let zFigure = [
   [boardWidth + 1, boardWidth + 2, boardWidth * 2, boardWidth * 2 + 1]
 ];
 
+let tFigure = [
+  [1, boardWidth, boardWidth + 1, boardWidth + 2],
+  [1, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 1],
+  [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 1],
+  [1, boardWidth, boardWidth + 1, boardWidth * 2 + 1]
+]
 
+let figuresArr = [oFigure, iFigure, lFigure, zFigure]
 
-
-let currentPosition = 4;
-let currentFigure = oFigure[0];
+let randomNum = Math.floor(Math.random()*figuresArr.length)
+let currentPosition = 3;
+let currentFigure = figuresArr[randomNum][1];
+console.log(figuresArr[randomNum][1]);
 
 
 intervalId = setInterval(moveDown, 1000);
@@ -108,16 +116,17 @@ function move(direction) {
   if (direction == "left" && !leftEdge) {
     currentPosition -= 1;
   } if (direction == "left" &&
-    currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
+    currentFigure.some(side => pixelArr[currentPosition + side].classList.contains('freeze-pixel'))) {
     currentPosition += 1;
   } if (direction == "right" && !rightEdge) {
     currentPosition += 1;
   } if (direction == "right" &&
-    currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
+    currentFigure.some(side => pixelArr[currentPosition + side].classList.contains('freeze-pixel'))) {
     currentPosition -= 1;
   }
   drawFigure();
 }
+
 
 function freezePixels() {
   if (currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
@@ -125,7 +134,8 @@ function freezePixels() {
       pixelArr[currentPosition + side].setAttribute('class', 'freeze-pixel figure');
     })
     //add a new figure
-    currentFigure = oFigure[0];
+    randomNum = Math.floor(Math.random()*figuresArr.length)
+    currentFigure = figuresArr[randomNum][1];
     currentPosition = 4;
     drawFigure();
     increaseScore();
