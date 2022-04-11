@@ -3,12 +3,19 @@ let boardWidth = 10;
 let BoardHeight = 20;
 let boardSize = boardWidth * BoardHeight;
 
-let oFigure = [[0, 1, boardWidth, boardWidth + 1]];
+
+//figures sides:
+let oFigure = [
+  [0, 1, boardWidth, boardWidth + 1],
+];
 
 
+
+let score = document.getElementById('score');
+console.log(score);
 
 let boardElm = document.querySelector('.board');
-// let groundElm = document.querySelector('.freeze-pixel');
+
 
 let startBtn = document.querySelector('.start-button');
 let intervalId
@@ -43,14 +50,6 @@ function boardDraw() {
 };
 
 
-// function groundDraw(){
-//   //create a ground with freeze-pixel class
-//   for(let i = boardSize-boardWidth ; i <boardSize ; i++){
-//    
-//   }
-//   return groundElm;
-// };
-
 
 
 function drawFigure() {
@@ -69,6 +68,7 @@ function deleteFigure() {
 }
 
 
+
 function moveDown() {
   // for moving figures from top to bottom
   deleteFigure();
@@ -80,14 +80,15 @@ function moveDown() {
 function move(direction) {
   /// to move right and left ,,,but ther is a bug in the adges of board
   deleteFigure();
-  if (direction == "left" &&
-    currentFigure.some(side => (currentPosition + side) % boardWidth !== 0)) {
+
+  let leftEdge = currentFigure.some(side => (currentPosition + side) % boardWidth === 0);
+  let rightEdge = currentFigure.some(side => (currentPosition + side) % boardWidth === boardWidth - 1);
+  if (direction == "left" && !leftEdge) {
     currentPosition -= 1;
   } if (direction == "left" &&
     currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
     currentPosition += 1;
-  } if (direction == "right" &&
-    currentFigure.some(side => (currentPosition + side) % boardWidth !== boardWidth - 1)) {
+  } if (direction == "right" && !rightEdge) {
     currentPosition += 1;
   } if (direction == "right" &&
     currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
@@ -105,13 +106,16 @@ function freezePixels() {
     currentFigure = oFigure[0];
     currentPosition = 4;
     drawFigure();
-
-
   }
 }
 
 
 
+
+
+
+
+// move with arrow keys
 document.addEventListener('keydown', (e) => {
   switch (e.key) {
     case "ArrowLeft":
