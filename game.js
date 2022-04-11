@@ -60,7 +60,7 @@ let currentFigure = figuresArr[randomNum][1];
 console.log(figuresArr[randomNum][1]);
 
 
-intervalId = setInterval(moveDown, 1000);
+
 
 
 
@@ -145,6 +145,7 @@ function freezePixels() {
 
 
 function increaseScore() {
+  // a problem here: when a line remove, the empty spaces remains
   for (let i = 0; i < boardSize; i += boardWidth) {
     let filledLineArr = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 7, i + 8, i + 9];
     if (filledLineArr.every(pixel => pixelArr[pixel].classList.contains('freeze-pixel'))) {
@@ -180,3 +181,6 @@ document.addEventListener('keydown', (e) => {
 })
 
 
+startBtn.addEventListener('click',()=>{
+  intervalId = setInterval(moveDown, 1000);
+})
