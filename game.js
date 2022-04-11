@@ -15,7 +15,6 @@ let groundArr = document.querySelectorAll('.freeze-pixel div');
 
 
 
-
 //figures sides:
 let oFigure = [
   [0, 1, boardWidth, boardWidth + 1],
@@ -52,12 +51,13 @@ let tFigure = [
   [1, boardWidth, boardWidth + 1, boardWidth * 2 + 1]
 ]
 
-let figuresArr = [oFigure, iFigure, lFigure, zFigure]
+let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure]
 
-let randomNum = Math.floor(Math.random()*figuresArr.length)
+let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 3;
-let currentFigure = figuresArr[randomNum][1];
-console.log(figuresArr[randomNum][1]);
+let currentRotation = 0;
+let currentFigure = figuresArr[randomNum][currentRotation];
+
 
 
 
@@ -128,15 +128,35 @@ function move(direction) {
 }
 
 
+
+
+
+//rotate figures
+function rotate() {
+  deleteFigure();
+  currentRotation += 1
+  if (currentRotation == 4) {
+    currentRotation = 0;
+  }
+  currentFigure = figuresArr[randomNum][currentRotation];
+  console.log(currentRotation)
+  drawFigure();
+}
+
+
+
+
+
 function freezePixels() {
   if (currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
     currentFigure.forEach(side => {
       pixelArr[currentPosition + side].setAttribute('class', 'freeze-pixel figure');
     })
     //add a new figure
-    randomNum = Math.floor(Math.random()*figuresArr.length)
-    currentFigure = figuresArr[randomNum][1];
+    randomNum = Math.floor(Math.random() * figuresArr.length)
+    currentFigure = figuresArr[randomNum][currentRotation];
     currentPosition = 4;
+
     drawFigure();
     increaseScore();
   }
@@ -153,7 +173,11 @@ function increaseScore() {
       score.innerText = scoreNumber;
       filledLineArr.forEach(pixel => {
         pixelArr[pixel].removeAttribute('class', 'figure');
-      })
+        pixelArr[pixel].removeAttribute('class', 'freeze-pixel');
+      });
+      let removedpixel = pixelArr.splice(i, width);
+      // pixelArr = removedpixel.concat(pixelArr);
+      removedpixel.forEach(pixel => boardElm.appendChild(pixel))
     }
   }
 }
@@ -177,10 +201,14 @@ document.addEventListener('keydown', (e) => {
     case "ArrowDown":
       moveDown()
       break;
+    case "ArrowUp":
+      rotate()
+      break;
   }
 })
 
 
-startBtn.addEventListener('click',()=>{
+//start button
+startBtn.addEventListener('click', () => {
   intervalId = setInterval(moveDown, 1000);
 })
