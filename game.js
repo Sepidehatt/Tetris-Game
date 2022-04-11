@@ -2,29 +2,51 @@
 let boardWidth = 10;
 let BoardHeight = 20;
 let boardSize = boardWidth * BoardHeight;
+let scoreNumber = 0;
+
+let score = document.getElementById('score');
+let boardElm = document.querySelector('.board');
+let startBtn = document.querySelector('.start-button');
+let intervalId
+
+let board = boardDraw();
+let pixelArr = document.querySelectorAll('.board div ');
+let groundArr = document.querySelectorAll('.freeze-pixel div');
+
+
 
 
 //figures sides:
 let oFigure = [
   [0, 1, boardWidth, boardWidth + 1],
+  [0, 1, boardWidth, boardWidth + 1],
+  [0, 1, boardWidth, boardWidth + 1],
+  [0, 1, boardWidth, boardWidth + 1]
+];
+
+let iFigure = [
+  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 3 + 1],
+  [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3],
+  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 3 + 1],
+  [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3]
+];
+
+let lFigure = [
+  [1, boardWidth + 1, boardWidth * 2 + 1, 2],
+  [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 2],
+  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 2],
+  [boardWidth, boardWidth * 2, boardWidth * 2 + 1, boardWidth * 2 + 2]
+];
+
+let zFigure = [
+  [0, boardWidth, boardWidth + 1, boardWidth * 2 + 1],
+  [boardWidth + 1, boardWidth + 2, boardWidth * 2, boardWidth * 2 + 1],
+  [0, boardWidth, boardWidth + 1, boardWidth * 2 + 1],
+  [boardWidth + 1, boardWidth + 2, boardWidth * 2, boardWidth * 2 + 1]
 ];
 
 
 
-let score = document.getElementById('score');
-console.log(score);
-
-let boardElm = document.querySelector('.board');
-
-
-let startBtn = document.querySelector('.start-button');
-let intervalId
-
-let board = boardDraw();
-
-
-let pixelArr = document.querySelectorAll('.board div ');
-let groundArr = document.querySelectorAll('.freeze-pixel div');
 
 let currentPosition = 4;
 let currentFigure = oFigure[0];
@@ -106,8 +128,25 @@ function freezePixels() {
     currentFigure = oFigure[0];
     currentPosition = 4;
     drawFigure();
+    increaseScore();
   }
 }
+
+
+
+function increaseScore() {
+  for (let i = 0; i < boardSize; i += boardWidth) {
+    let filledLineArr = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 7, i + 8, i + 9];
+    if (filledLineArr.every(pixel => pixelArr[pixel].classList.contains('freeze-pixel'))) {
+      scoreNumber += 10;
+      score.innerText = scoreNumber;
+      filledLineArr.forEach(pixel => {
+        pixelArr[pixel].removeAttribute('class', 'figure');
+      })
+    }
+  }
+}
+
 
 
 
