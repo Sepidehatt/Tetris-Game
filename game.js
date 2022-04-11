@@ -9,8 +9,9 @@ let boardElm = document.querySelector('.board');
 let startBtn = document.querySelector('.start-button');
 let intervalId
 
+
 let board = boardDraw();
-let pixelArr = document.querySelectorAll('.board div ');
+let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 
 
@@ -24,16 +25,16 @@ let oFigure = [
 ];
 
 let iFigure = [
-  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 3 + 1],
+  [0, boardWidth , boardWidth * 2 , boardWidth * 3 ],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3],
-  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 3 + 1],
+  [0, boardWidth , boardWidth * 2 , boardWidth * 3 ],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3]
 ];
 
 let lFigure = [
-  [1, boardWidth + 1, boardWidth * 2 + 1, 2],
+  [0, boardWidth, boardWidth * 2, 1],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 2],
-  [1, boardWidth + 1, boardWidth * 2 + 1, boardWidth * 2],
+  [0, boardWidth, boardWidth * 2, boardWidth * 2-1],
   [boardWidth, boardWidth * 2, boardWidth * 2 + 1, boardWidth * 2 + 2]
 ];
 
@@ -45,10 +46,10 @@ let zFigure = [
 ];
 
 let tFigure = [
-  [1, boardWidth, boardWidth + 1, boardWidth + 2],
-  [1, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 1],
+  [0, boardWidth-1, boardWidth , boardWidth + 1],
+  [0, boardWidth, boardWidth + 1, boardWidth * 2 ],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 1],
-  [1, boardWidth, boardWidth + 1, boardWidth * 2 + 1]
+  [0, boardWidth-1, boardWidth , boardWidth * 2 ]
 ]
 
 let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure]
@@ -133,13 +134,13 @@ function move(direction) {
 
 //rotate figures
 function rotate() {
+// when the figures rotated near board edges,, buges apear
   deleteFigure();
   currentRotation += 1
   if (currentRotation == 4) {
     currentRotation = 0;
   }
   currentFigure = figuresArr[randomNum][currentRotation];
-  console.log(currentRotation)
   drawFigure();
 }
 
@@ -165,19 +166,24 @@ function freezePixels() {
 
 
 function increaseScore() {
-  // a problem here: when a line remove, the empty spaces remains
+ 
   for (let i = 0; i < boardSize; i += boardWidth) {
     let filledLineArr = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 7, i + 8, i + 9];
     if (filledLineArr.every(pixel => pixelArr[pixel].classList.contains('freeze-pixel'))) {
+      
       scoreNumber += 10;
       score.innerText = scoreNumber;
       filledLineArr.forEach(pixel => {
-        pixelArr[pixel].removeAttribute('class', 'figure');
-        pixelArr[pixel].removeAttribute('class', 'freeze-pixel');
+        
+        pixelArr[pixel].classList.remove('figure')
+        pixelArr[pixel].classList.remove('freeze-pixel')
       });
-      let removedpixel = pixelArr.splice(i, width);
-      // pixelArr = removedpixel.concat(pixelArr);
-      removedpixel.forEach(pixel => boardElm.appendChild(pixel))
+
+
+      const pixelRemoved = pixelArr.splice(i, boardWidth);
+      pixelArr = pixelRemoved.concat(pixelArr);
+      pixelArr.forEach(pixel => boardElm.appendChild(pixel)); 
+      
     }
   }
 }
