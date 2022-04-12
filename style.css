@@ -1,10 +1,49 @@
 
-.container {
+body{
+  background: #ECE9E6;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  
+}
+
+
+
+header{
+  text-align: center;
+  margin-right: 90px;
+  margin-bottom: 70px;
+}
+
+header h3{
+ 
+  color: rgb(236, 22, 22);
+}
+
+.container{
+display: flex;
+justify-content: center;
+
+}
+
+.right-side{
+  margin-left: 50px;
+  
+}
+
+.left-side{
+  border: 12px solid #e9e1bd;
+  border-radius: 10px;
+  
+}
+
+
+.board-container {
   width: 200px;
   height: 400px;
   display: flex;
   flex-wrap: wrap;
-  background-color: rgb(60, 113, 148);
+  background-image: url(./tetris/gray.png);
+
 }
 
 
@@ -37,6 +76,33 @@
   background-color: rgb(243, 171, 16);
 }
 
+
+.btn{
+  font-size: 1.5em;
+  padding: 5px 30px;
+  color: darkgoldenrod;
+  border-color: darkgoldenrod;
+}
+
+.btn:hover{
+  font-size: 1.5em;
+  padding: 5px 30px;
+  color: rgb(255, 255, 255);
+  background-color: darkgoldenrod;
+  border-color: rgb(255, 255, 255);
+}
+
+h3{
+  text-align: center;
+}
+
+.right-side p{
+  font-size: 3em;
+}
+
+.figure{
+  background-image: url(./tetris/blue.png);
+}
 
 
 

@@ -6,14 +6,14 @@ let scoreNumber = 0;
 
 let score = document.getElementById('score');
 let boardElm = document.querySelector('.board');
-let startBtn = document.querySelector('.start-button');
+let startBtn = document.querySelector('.btn');
 let intervalId
 
 
 let board = boardDraw();
 let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
-
+let gameOverMsg = document.querySelector('header h3')
 
 
 //figures sides:
@@ -195,7 +195,8 @@ function increaseScore() {
 function gameOver() {
   if(currentFigure.some(pixel=> pixelArr[pixel+currentPosition].classList.contains('freeze-pixel'))){
     clearInterval(intervalId)
-    alert('you lost dude! accept it!');
+    gameOverMsg.innerText = 'you lost dude! accept it!'
+    
   }
 }
 
