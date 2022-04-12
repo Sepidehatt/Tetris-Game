@@ -25,16 +25,16 @@ let oFigure = [
 ];
 
 let iFigure = [
-  [0, boardWidth , boardWidth * 2 , boardWidth * 3 ],
+  [0, boardWidth, boardWidth * 2, boardWidth * 3],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3],
-  [0, boardWidth , boardWidth * 2 , boardWidth * 3 ],
+  [0, boardWidth, boardWidth * 2, boardWidth * 3],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth + 3]
 ];
 
 let lFigure = [
   [0, boardWidth, boardWidth * 2, 1],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 2],
-  [0, boardWidth, boardWidth * 2, boardWidth * 2-1],
+  [0, boardWidth, boardWidth * 2, boardWidth * 2 - 1],
   [boardWidth, boardWidth * 2, boardWidth * 2 + 1, boardWidth * 2 + 2]
 ];
 
@@ -46,16 +46,16 @@ let zFigure = [
 ];
 
 let tFigure = [
-  [0, boardWidth-1, boardWidth , boardWidth + 1],
-  [0, boardWidth, boardWidth + 1, boardWidth * 2 ],
+  [0, boardWidth - 1, boardWidth, boardWidth + 1],
+  [0, boardWidth, boardWidth + 1, boardWidth * 2],
   [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 1],
-  [0, boardWidth-1, boardWidth , boardWidth * 2 ]
+  [0, boardWidth - 1, boardWidth, boardWidth * 2]
 ]
 
 let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure]
 
 let randomNum = Math.floor(Math.random() * figuresArr.length)
-let currentPosition = 3;
+let currentPosition = 4;
 let currentRotation = 0;
 let currentFigure = figuresArr[randomNum][currentRotation];
 
@@ -86,7 +86,7 @@ function boardDraw() {
 function drawFigure() {
   //draw figurs here
   currentFigure.forEach(side => {
-    pixelArr[currentPosition + side].setAttribute('class', 'figure')
+    pixelArr[currentPosition + side].classList.add("figure")
   })
 }
 
@@ -94,7 +94,7 @@ function drawFigure() {
 function deleteFigure() {
   //delete draw figurs for prevent Elongation
   currentFigure.forEach(side => {
-    pixelArr[currentPosition + side].removeAttribute('class', 'figure')
+    pixelArr[currentPosition + side].classList.remove('figure')
   })
 }
 
@@ -106,6 +106,7 @@ function moveDown() {
   currentPosition += boardWidth;
   drawFigure();
   freezePixels();
+ 
 }
 
 function move(direction) {
@@ -134,10 +135,10 @@ function move(direction) {
 
 //rotate figures
 function rotate() {
-// when the figures rotated near board edges,, buges apear
+  // when the figures rotated near board edges,, buges apear
   deleteFigure();
   currentRotation += 1
-  if (currentRotation == 4) {
+  if (currentRotation === 4) {
     currentRotation = 0;
   }
   currentFigure = figuresArr[randomNum][currentRotation];
@@ -147,11 +148,11 @@ function rotate() {
 
 
 
-
 function freezePixels() {
   if (currentFigure.some(side => pixelArr[currentPosition + side + boardWidth].classList.contains('freeze-pixel'))) {
     currentFigure.forEach(side => {
-      pixelArr[currentPosition + side].setAttribute('class', 'freeze-pixel figure');
+      pixelArr[currentPosition + side].classList.add('freeze-pixel');
+      pixelArr[currentPosition + side].classList.add('figure');
     })
     //add a new figure
     randomNum = Math.floor(Math.random() * figuresArr.length)
@@ -160,21 +161,22 @@ function freezePixels() {
 
     drawFigure();
     increaseScore();
+    gameOver();
   }
 }
 
 
-
+//to increase the score,,when a line filled of figures
 function increaseScore() {
- 
+
   for (let i = 0; i < boardSize; i += boardWidth) {
     let filledLineArr = [i, i + 1, i + 2, i + 3, i + 4, i + 5, i + 6, i + 7, i + 7, i + 8, i + 9];
     if (filledLineArr.every(pixel => pixelArr[pixel].classList.contains('freeze-pixel'))) {
-      
+
       scoreNumber += 10;
       score.innerText = scoreNumber;
       filledLineArr.forEach(pixel => {
-        
+
         pixelArr[pixel].classList.remove('figure')
         pixelArr[pixel].classList.remove('freeze-pixel')
       });
@@ -182,9 +184,18 @@ function increaseScore() {
 
       const pixelRemoved = pixelArr.splice(i, boardWidth);
       pixelArr = pixelRemoved.concat(pixelArr);
-      pixelArr.forEach(pixel => boardElm.appendChild(pixel)); 
-      
+      pixelArr.forEach(pixel => boardElm.appendChild(pixel));
+
     }
+  }
+}
+
+
+
+function gameOver() {
+  if(currentFigure.some(pixel=> pixelArr[pixel+currentPosition].classList.contains('freeze-pixel'))){
+    clearInterval(intervalId)
+    alert('you lost dude! accept it!');
   }
 }
 
