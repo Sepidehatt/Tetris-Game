@@ -15,6 +15,12 @@ let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 let gameOverMsg = document.querySelector('header h3')
 
+let startBtnSound = new Audio('./sounds/click.mp3')
+let gameMusic = new Audio('./sounds/tetris-gameboy-02.mp3')
+gameMusic.volume = 0.1;
+gameMusic.loop
+
+
 
 //figures sides:
 let oFigure = [
@@ -210,6 +216,7 @@ function gameOver() {
   if (currentFigure.some(pixel => pixelArr[pixel + currentPosition].classList.contains('freeze-pixel'))) {
     clearInterval(intervalId)
     gameOverMsg.innerText = 'you lost dude! accept it!'
+    gameMusic.pause()
 
   }
 }
@@ -242,5 +249,7 @@ document.addEventListener('keydown', (e) => {
 
 //start button
 startBtn.addEventListener('click', () => {
+  startBtnSound.play()
   intervalId = setInterval(moveDown, 1000);
+  gameMusic.play()
 })
