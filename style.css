@@ -1,22 +1,24 @@
 
 body{
-  background: #ECE9E6;  /* fallback for old browsers */
-  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  /* Chrome 10-25, Safari 5.1-6 */
-  background: linear-gradient(to right, #FFFFFF, #ECE9E6); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
-  
+  background-image: url(./tetris/thumb-1920-66702.jpg);
 }
 
 
 
 header{
   text-align: center;
-  margin-right: 90px;
-  margin-bottom: 70px;
+  
+ 
+}
+
+header h1{
+  margin-top: 50px;
 }
 
 header h3{
- 
+
   color: rgb(236, 22, 22);
+  margin-bottom: 70px;
 }
 
 .container{
@@ -26,7 +28,13 @@ justify-content: center;
 }
 
 .right-side{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
   margin-left: 50px;
+  border: 1px solid darkgoldenrod;
+  border-radius: 10px;
+ 
   
 }
 
@@ -78,6 +86,7 @@ justify-content: center;
 
 
 .btn{
+  margin: 50px 40px;
   font-size: 1.5em;
   padding: 5px 30px;
   color: darkgoldenrod;
@@ -98,6 +107,7 @@ h3{
 
 .right-side p{
   font-size: 3em;
+  
 }
 
 .figure{
