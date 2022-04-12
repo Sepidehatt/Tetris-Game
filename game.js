@@ -38,11 +38,25 @@ let lFigure = [
   [boardWidth, boardWidth * 2, boardWidth * 2 + 1, boardWidth * 2 + 2]
 ];
 
+let lMirorFigure = [
+  [1, boardWidth + 1, boardWidth * 2, boardWidth * 2 + 1],
+  [0, boardWidth, boardWidth + 1, boardWidth + 2],
+  [0, 1, boardWidth, boardWidth * 2],
+  [boardWidth, boardWidth + 1, boardWidth + 2, boardWidth * 2 + 2]
+];
+
 let zFigure = [
   [0, boardWidth, boardWidth + 1, boardWidth * 2 + 1],
   [boardWidth + 1, boardWidth + 2, boardWidth * 2, boardWidth * 2 + 1],
   [0, boardWidth, boardWidth + 1, boardWidth * 2 + 1],
   [boardWidth + 1, boardWidth + 2, boardWidth * 2, boardWidth * 2 + 1]
+];
+
+let zMirorFigure = [
+  [1, boardWidth, boardWidth + 1, boardWidth * 2],
+  [0, 1, boardWidth+1, boardWidth + 2],
+  [1, boardWidth, boardWidth + 1, boardWidth * 2],
+  [0, 1, boardWidth+1, boardWidth + 2]
 ];
 
 let tFigure = [
@@ -52,7 +66,7 @@ let tFigure = [
   [0, boardWidth - 1, boardWidth, boardWidth * 2]
 ]
 
-let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure]
+let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure,lMirorFigure,zMirorFigure]
 
 let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 4;
@@ -106,7 +120,7 @@ function moveDown() {
   currentPosition += boardWidth;
   drawFigure();
   freezePixels();
- 
+
 }
 
 function move(direction) {
@@ -193,10 +207,10 @@ function increaseScore() {
 
 
 function gameOver() {
-  if(currentFigure.some(pixel=> pixelArr[pixel+currentPosition].classList.contains('freeze-pixel'))){
+  if (currentFigure.some(pixel => pixelArr[pixel + currentPosition].classList.contains('freeze-pixel'))) {
     clearInterval(intervalId)
     gameOverMsg.innerText = 'you lost dude! accept it!'
-    
+
   }
 }
 
