@@ -14,11 +14,13 @@ let board = boardDraw();
 let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 let gameOverMsg = document.querySelector('header h3')
-
+let nextFigure = document.querySelector('.next-figure')
+console.log(nextFigure);
+let figureBoard = nextFigureBoard()
 let startBtnSound = new Audio('./sounds/click.mp3')
 let gameMusic = new Audio('./sounds/tetris-gameboy-02.mp3')
 gameMusic.volume = 0.1;
-gameMusic.loop
+gameMusic.loop = true;
 
 
 
@@ -60,9 +62,9 @@ let zFigure = [
 
 let zMirorFigure = [
   [1, boardWidth, boardWidth + 1, boardWidth * 2],
-  [0, 1, boardWidth+1, boardWidth + 2],
+  [0, 1, boardWidth + 1, boardWidth + 2],
   [1, boardWidth, boardWidth + 1, boardWidth * 2],
-  [0, 1, boardWidth+1, boardWidth + 2]
+  [0, 1, boardWidth + 1, boardWidth + 2]
 ];
 
 let tFigure = [
@@ -72,7 +74,7 @@ let tFigure = [
   [0, boardWidth - 1, boardWidth, boardWidth * 2]
 ]
 
-let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure,lMirorFigure,zMirorFigure]
+let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure, lMirorFigure, zMirorFigure]
 
 let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 4;
@@ -99,6 +101,15 @@ function boardDraw() {
   }
   return boardElm;
 };
+
+function nextFigureBoard() {
+  for (let i = 0; i < 36; i++) {
+    let nextFigurePixel = document.createElement('div');
+    nextFigurePixel.setAttribute('class' , 'figure-board');
+    nextFigure.appendChild(nextFigurePixel);
+  }
+  return nextFigure;
+}
 
 
 
