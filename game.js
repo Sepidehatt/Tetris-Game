@@ -14,7 +14,7 @@ let intervalId
 let board = boardDraw();
 let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
-let gameOverMsg = document.querySelector('header h3')
+let gameOverMsg = document.querySelector('header div')
 let nextFigure = document.querySelector('.next-figure')
 
 
@@ -22,9 +22,10 @@ let figureBoard = nextFigureBoard()
 let nextPixelArr = Array.from(document.querySelectorAll('.next-figure div '));
 let startBtnSound = new Audio('./sounds/click.mp3')
 let gameMusic = new Audio('./sounds/tetris-gameboy-02.mp3')
+let gameOverSound = new Audio('./sounds/mixkit-sad-game-over-trombone-471.wav')
 gameMusic.volume = 0.1;
 gameMusic.loop = true;
-
+gameOverSound.volume = 0.3;
 
 
 //figures sides:
@@ -89,7 +90,7 @@ let nextFiguresArr = [
 ]
 
 let nextRandom = 0
-let nextFigurePosition =3;
+let nextFigurePosition =2;
 let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 4;
 let currentRotation = 0;
@@ -255,16 +256,12 @@ function increaseScore() {
 function gameOver() {
   if (currentFigure.some(pixel => pixelArr[pixel + currentPosition].classList.contains('freeze-pixel'))) {
     clearInterval(intervalId)
-    gameOverMsg.innerText = 'you lost dude! accept it!'
+    gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> to start again, refresh the page'
+    gameOverMsg.style.display = 'block'
     gameMusic.pause()
-
+    gameOverSound.play()
   }
 }
-
-
-
-
-
 
 
 
