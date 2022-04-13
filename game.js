@@ -287,7 +287,16 @@ document.addEventListener('keydown', (e) => {
 //start button
 startBtn.addEventListener('click', () => {
   startBtnSound.play();
-  intervalId = setInterval(moveDown, 1000);
-  drawNextFigure();
-  gameMusic.play();
+  if(intervalId == null){
+    intervalId = setInterval(moveDown, 1000);
+    startBtn.innerText='Pause'
+    drawNextFigure();
+    gameMusic.play();
+  }else{
+    clearInterval(intervalId)
+    intervalId = null;
+    gameMusic.pause()
+    startBtn.innerText='Resume'
+  }
+
 })

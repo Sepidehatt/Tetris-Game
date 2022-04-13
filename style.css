@@ -3,6 +3,7 @@ body{
   background-image: url(./tetris/thumb-1920-66702.jpg);
   color: white;
   text-shadow: 2px 2px rgb(63, 63, 63) ;
+  box-sizing: border-box;
 }
 
 
