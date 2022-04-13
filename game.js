@@ -1,6 +1,7 @@
 
 let boardWidth = 10;
 let BoardHeight = 20;
+let nextFigureWidth = 6
 let boardSize = boardWidth * BoardHeight;
 let scoreNumber = 0;
 
@@ -15,8 +16,10 @@ let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 let gameOverMsg = document.querySelector('header h3')
 let nextFigure = document.querySelector('.next-figure')
-console.log(nextFigure);
+
+
 let figureBoard = nextFigureBoard()
+let nextPixelArr = Array.from(document.querySelectorAll('.next-figure div '));
 let startBtnSound = new Audio('./sounds/click.mp3')
 let gameMusic = new Audio('./sounds/tetris-gameboy-02.mp3')
 gameMusic.volume = 0.1;
@@ -75,7 +78,18 @@ let tFigure = [
 ]
 
 let figuresArr = [oFigure, iFigure, lFigure, zFigure, tFigure, lMirorFigure, zMirorFigure]
+let nextFiguresArr = [
+  [0, 1, nextFigureWidth, nextFigureWidth + 1],
+  [0, nextFigureWidth, nextFigureWidth * 2, nextFigureWidth * 3],
+  [0, nextFigureWidth, nextFigureWidth * 2, 1],
+  [0, nextFigureWidth, nextFigureWidth + 1, nextFigureWidth * 2 + 1],
+  [0, nextFigureWidth - 1, nextFigureWidth, nextFigureWidth + 1],
+  [1, nextFigureWidth + 1, nextFigureWidth * 2, nextFigureWidth * 2 + 1],
+  [1, nextFigureWidth, nextFigureWidth + 1, nextFigureWidth * 2]
+]
 
+let nextRandom = 0
+let nextFigurePosition =3;
 let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 4;
 let currentRotation = 0;
@@ -102,6 +116,7 @@ function boardDraw() {
   return boardElm;
 };
 
+//creating a board to show next figure
 function nextFigureBoard() {
   for (let i = 0; i < 36; i++) {
     let nextFigurePixel = document.createElement('div');
@@ -109,6 +124,18 @@ function nextFigureBoard() {
     nextFigure.appendChild(nextFigurePixel);
   }
   return nextFigure;
+}
+
+
+//drawing the next figur
+function drawNextFigure(){
+
+  nextPixelArr.forEach(pixel=>{
+    pixel.classList.remove('figure');
+  })
+  nextFiguresArr[nextRandom].forEach(pixel=>{
+    nextPixelArr[pixel+nextFigurePosition+nextFigureWidth].classList.add('figure')
+  })
 }
 
 
@@ -186,12 +213,14 @@ function freezePixels() {
       pixelArr[currentPosition + side].classList.add('figure');
     })
     //add a new figure
-    randomNum = Math.floor(Math.random() * figuresArr.length)
+    randomNum = nextRandom
+    nextRandom = Math.floor(Math.random() * figuresArr.length)
     currentFigure = figuresArr[randomNum][currentRotation];
     currentPosition = 4;
 
     drawFigure();
     increaseScore();
+    drawNextFigure();
     gameOver();
   }
 }
@@ -260,7 +289,8 @@ document.addEventListener('keydown', (e) => {
 
 //start button
 startBtn.addEventListener('click', () => {
-  startBtnSound.play()
+  startBtnSound.play();
   intervalId = setInterval(moveDown, 1000);
-  gameMusic.play()
+  drawNextFigure();
+  gameMusic.play();
 })
