@@ -16,6 +16,7 @@ let board = boardDraw();
 let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 let gameOverMsg = document.querySelector('header div')
+let resetBtn = document.querySelector('.reset')
 let nextFigure = document.querySelector('.next-figure')
 let muteControlBtn = document.querySelector('.mute-control')
 
@@ -259,8 +260,9 @@ function increaseScore() {
 function gameOver() {
   if (currentFigure.some(pixel => pixelArr[pixel + currentPosition].classList.contains('freeze-pixel'))) {
     clearInterval(intervalId)
-    gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> to start again, refresh the page'
-    gameOverMsg.style.display = 'block'
+    gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> to start again, press Reset'
+    gameOverMsg.style.display = 'inline'
+    resetBtn.style.display = 'inline'
     startBtn.innerText = 'Start';
     gameMusic.pause()
     gameOverSound.play()
@@ -290,14 +292,14 @@ document.addEventListener('keydown', (e) => {
 
 //start button
 startBtn.addEventListener('click', () => {
-  
+
   startBtnSound.play();
   if (intervalId == null) {
     intervalId = setInterval(moveDown, 1000);
     startBtn.innerText = 'Pause'
     drawNextFigure();
-    if(clicks%2 == 1) gameMusic.pause();
-    if(clicks%2 == 0) gameMusic.play();
+    if (clicks % 2 == 1) gameMusic.pause();
+    if (clicks % 2 == 0) gameMusic.play();
   } else {
     clearInterval(intervalId)
     intervalId = null;
@@ -312,14 +314,14 @@ muteControlBtn.addEventListener('click', (e) => {
   if (e.currentTarget == muteControlBtn) {
     clicks++
   }
-  if (clicks % 2 == 1 ) {
+  if (clicks % 2 == 1) {
     gameMusic.pause();
-    muteControlBtn.removeAttribute('src', './tetris/unmute.png');
-    muteControlBtn.setAttribute('src', './tetris/mute.png');
-  } if (clicks % 2 == 0) {
-    gameMusic.play();
     muteControlBtn.removeAttribute('src', './tetris/mute.png');
     muteControlBtn.setAttribute('src', './tetris/unmute.png');
+  } if (clicks % 2 == 0) {
+    gameMusic.play();
+    muteControlBtn.removeAttribute('src', './tetris/unmute.png');
+    muteControlBtn.setAttribute('src', './tetris/mute.png');
   }
 
 })
