@@ -142,3 +142,12 @@ h3{
 
 
 
+
+.mute-control{
+  cursor: pointer;
+  margin-top: 180px;
+  margin-left: 30px;
+  width: 70px;
+  border: 1px solid darkgoldenrod;
+  border-radius: 10px; 
+}

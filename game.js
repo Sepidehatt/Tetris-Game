@@ -9,6 +9,7 @@ let score = document.getElementById('score');
 let boardElm = document.querySelector('.board');
 let startBtn = document.querySelector('.btn');
 let intervalId
+let clicks = 0
 
 
 let board = boardDraw();
@@ -16,6 +17,7 @@ let pixelArr = Array.from(document.querySelectorAll('.board div '));
 let groundArr = document.querySelectorAll('.freeze-pixel div');
 let gameOverMsg = document.querySelector('header div')
 let nextFigure = document.querySelector('.next-figure')
+let muteControlBtn = document.querySelector('.mute-control')
 
 
 let figureBoard = nextFigureBoard()
@@ -26,7 +28,7 @@ let gameOverSound = new Audio('./sounds/mixkit-sad-game-over-trombone-471.wav')
 gameMusic.volume = 0.1;
 gameMusic.loop = true;
 gameOverSound.volume = 0.3;
-
+startBtnSound.volume = 0.2;
 
 //figures sides:
 let oFigure = [
@@ -90,7 +92,7 @@ let nextFiguresArr = [
 ]
 
 let nextRandom = 0
-let nextFigurePosition =2;
+let nextFigurePosition = 2;
 let randomNum = Math.floor(Math.random() * figuresArr.length)
 let currentPosition = 4;
 let currentRotation = 0;
@@ -121,7 +123,7 @@ function boardDraw() {
 function nextFigureBoard() {
   for (let i = 0; i < 36; i++) {
     let nextFigurePixel = document.createElement('div');
-    nextFigurePixel.setAttribute('class' , 'figure-board');
+    nextFigurePixel.setAttribute('class', 'figure-board');
     nextFigure.appendChild(nextFigurePixel);
   }
   return nextFigure;
@@ -129,13 +131,13 @@ function nextFigureBoard() {
 
 
 //drawing the next figur
-function drawNextFigure(){
+function drawNextFigure() {
 
-  nextPixelArr.forEach(pixel=>{
+  nextPixelArr.forEach(pixel => {
     pixel.classList.remove('figure');
   })
-  nextFiguresArr[nextRandom].forEach(pixel=>{
-    nextPixelArr[pixel+nextFigurePosition+nextFigureWidth].classList.add('figure')
+  nextFiguresArr[nextRandom].forEach(pixel => {
+    nextPixelArr[pixel + nextFigurePosition + nextFigureWidth].classList.add('figure')
   })
 }
 
@@ -249,6 +251,7 @@ function increaseScore() {
 
     }
   }
+
 }
 
 
@@ -258,6 +261,7 @@ function gameOver() {
     clearInterval(intervalId)
     gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> to start again, refresh the page'
     gameOverMsg.style.display = 'block'
+    startBtn.innerText = 'Start';
     gameMusic.pause()
     gameOverSound.play()
   }
@@ -286,17 +290,36 @@ document.addEventListener('keydown', (e) => {
 
 //start button
 startBtn.addEventListener('click', () => {
+  
   startBtnSound.play();
-  if(intervalId == null){
+  if (intervalId == null) {
     intervalId = setInterval(moveDown, 1000);
-    startBtn.innerText='Pause'
+    startBtn.innerText = 'Pause'
     drawNextFigure();
-    gameMusic.play();
-  }else{
+    if(clicks%2 == 1) gameMusic.pause();
+    if(clicks%2 == 0) gameMusic.play();
+  } else {
     clearInterval(intervalId)
     intervalId = null;
     gameMusic.pause()
-    startBtn.innerText='Resume'
+    startBtn.innerText = 'Resume'
+  }
+})
+
+
+muteControlBtn.addEventListener('click', (e) => {
+
+  if (e.currentTarget == muteControlBtn) {
+    clicks++
+  }
+  if (clicks % 2 == 1 ) {
+    gameMusic.pause();
+    muteControlBtn.removeAttribute('src', './tetris/unmute.png');
+    muteControlBtn.setAttribute('src', './tetris/mute.png');
+  } if (clicks % 2 == 0) {
+    gameMusic.play();
+    muteControlBtn.removeAttribute('src', './tetris/mute.png');
+    muteControlBtn.setAttribute('src', './tetris/unmute.png');
   }
 
 })
