@@ -1,4 +1,4 @@
-# ~~>> Description <<~~
+# >> Description <<
 
 This is my first project in the world of coding and I'm really excited.
 
