@@ -260,14 +260,31 @@ function increaseScore() {
 function gameOver() {
   if (currentFigure.some(pixel => pixelArr[pixel + currentPosition].classList.contains('freeze-pixel'))) {
     clearInterval(intervalId)
-    gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> to start again, press Reset'
+    gameOverMsg.innerHTML = '<strong>you lost dude! accept it!</strong> but you can play again'
     gameOverMsg.style.display = 'inline'
     resetBtn.style.display = 'inline'
     startBtn.innerText = 'Start';
     gameMusic.pause()
     gameOverSound.play()
+    checkBestScore(scoreNumber)
   }
 }
+
+let bestScore = 0;
+///save score in local storage!
+function checkBestScore(score){
+  if(score > bestScore) bestScore = score ;
+  else bestScore;
+let scoreStorage=[];
+scoreStorage.push(localStorage.setItem('bestScore' , `${bestScore}`))
+
+let bestScoreElm = document.getElementById('high-scores')
+bestScoreElm.innerHTML = `your best score is ${localStorage.getItem('best Score')}`
+}
+
+
+
+
 
 
 
