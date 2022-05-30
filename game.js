@@ -266,21 +266,26 @@ function gameOver() {
     startBtn.innerText = 'Start';
     gameMusic.pause()
     gameOverSound.play()
-    checkBestScore(scoreNumber)
+    // checkBestScore(scoreNumber)
   }
 }
-
-let bestScore = 0;
+// let bestScoreElm = document.getElementById('high-scores')
+// let bestScore = 0;
 ///save score in local storage!
-function checkBestScore(score){
-  if(score > bestScore) bestScore = score ;
-  else bestScore;
-let scoreStorage=[];
-scoreStorage.push(localStorage.setItem('bestScore' , `${bestScore}`))
+// function checkBestScore(score) {
 
-let bestScoreElm = document.getElementById('high-scores')
-bestScoreElm.innerHTML = `your best score is ${localStorage.getItem('best Score')}`
-}
+//   localStorage.setItem( `${bestScore}`,'bestScore')
+//   if (score > Number(localStorage.getItem('bestScore'))) {
+//     bestScore=score
+//     localStorage.setItem('bestScore', `${score}`)
+//     bestScoreElm.innerHTML = `your best score is ${localStorage.getItem('bestScore')}`
+//   } else {
+//     localStorage.setItem('bestScore', `${bestScore}`)
+//     bestScoreElm.innerHTML = `your best score is ${localStorage.getItem('bestScore')}`
+//   }
+// return bestScore
+
+// }
 
 
 
